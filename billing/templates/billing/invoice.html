@@ -1,0 +1,15 @@
+{% extends 'billing/base.html' %}
+
+{% block title %}Invoice - Grocery Billing{% endblock %}
+
+{% block content %}
+<h2>Invoice</h2>
+<p>This is the invoice for Bill #{{ invoice_id }}</p>
+<table class="table table-bordered">
+    <tr><th>Item</th><th>Quantity</th><th>Price</th></tr>
+    <tr><td>Rice</td><td>2</td><td>$20</td></tr>
+    <tr><td>Sugar</td><td>1</td><td>$10</td></tr>
+</table>
+<p><strong>Total: $30</strong></p>
+<button class="btn btn-primary">Print Invoice</button>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'billing/base.html' %}
+{% block content %}
+<h2>Stock Management</h2>
+<table class="table table-bordered">
+    <tr><th>Product</th><th>Quantity</th><th>Status</th></tr>
+    {% for product in stock %}
+    <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.stock }}</td>
+        <td>
+            {% if product.stock <= 5 %}
+                <span class="text-danger">Low Stock</span>
+            {% else %}
+                <span class="text-success">In Stock</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="3">No stock data</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

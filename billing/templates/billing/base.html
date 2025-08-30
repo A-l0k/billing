@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Grocery Billing{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>🛒 Grocery Billing System</h1>
+        <nav>
+            <a href="/">Home</a> |
+            <a href="/products/">Products</a> |
+            <a href="/billing/">Billing</a> |
+            <a href="/stock/">Stock</a> |
+            <a href="/reports/">Reports</a>
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Page-specific content goes here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <hr>
+        <p>&copy; 2025 Grocery Billing System</p>
+    </footer>
+</body>
+</html>

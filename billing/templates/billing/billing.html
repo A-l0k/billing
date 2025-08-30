@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Billing Page</title>
+    <style>
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script>
+        let billItems = [];
+
+        async function lookupProduct() {
+            const barcode = document.getElementById("barcode").value;
+            if (!barcode) {
+                alert("Please enter a barcode!");
+                return;
+            }
+
+            try {
+                const response = await fetch(`/lookup/?barcode=${barcode}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    // Default price if API doesn’t provide
+                    let price = data.price || (Math.random() * 100).toFixed(2);  
+                    addToBill(data.name, price);
+                }
+            } catch (err) {
+                console.error("Error:", err);
+                alert("Error fetching product");
+            }
+
+            document.getElementById("barcode").value = "";
+        }
+
+        function addToBill(name, price) {
+            let existing = billItems.find(item => item.name === name);
+            if (existing) {
+                existing.qty += 1;
+                existing.total = (existing.qty * existing.price).toFixed(2);
+            } else {
+                billItems.push({
+                    name: name,
+                    price: parseFloat(price),
+                    qty: 1,
+                    total: parseFloat(price).toFixed(2)
+                });
+            }
+            renderBill();
+        }
+
+        function renderBill() {
+            let tableBody = document.getElementById("billBody");
+            tableBody.innerHTML = "";
+            let grandTotal = 0;
+
+            billItems.forEach(item => {
+                grandTotal += parseFloat(item.total);
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.qty}</td>
+                        <td>${item.price.toFixed(2)}</td>
+                        <td>${item.total}</td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById("grandTotal").innerText = grandTotal.toFixed(2);
+        }
+    </script>
+</head>
+<body>
+    <h1>Billing Page</h1>
+
+    <label for="barcode">Enter or Scan Barcode:</label>
+    <input type="text" id="barcode" placeholder="e.g. 737628064502">
+    <button onclick="lookupProduct()">Add to Bill</button>
+
+    <h2>Invoice</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="billBody"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><b>Grand Total</b></td>
+                <td id="grandTotal">0.00</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <br>
+    <a href="/">Back to Home</a>
+</body>
+</html>
