@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-q)f+it*j$i$20@!z3al6m-(a(quvxo9f2)*3x_77o%33f9u-#&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["grocery-billing-fhm9.onrender.com"]
 
 
 # Application definition
