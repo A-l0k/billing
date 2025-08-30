@@ -1,1 +1,1 @@
-web: gunicorn grocery_billing.grocery_billing.wsgi:application
+web: gunicorn grocery_billing.wsgi:application
